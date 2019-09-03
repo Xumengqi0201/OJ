@@ -1,0 +1,35 @@
+##	同一个仓库
+
+1.	打开 git
+
+2.	cd d:github
+
+3.	git pull
+
+4.	新建文件
+
+5.	git add .
+
+6.	git commit -m 'add ....'
+
+7.	git push origin master
+
+8.	ok
+
+
+##	新建
+
+1.	git init
+
+2.	git remote add origin git@github.com:Xumengqi0201/PAT.git
+
+3.	git pull origin master
+
+4.	ok
+
+
+同步：
+
+1. git lg 
+
+2.git reset --hard （id）
