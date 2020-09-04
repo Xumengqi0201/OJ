@@ -2,28 +2,28 @@ class Solution {
 public:
     int minNumberInRotateArray(vector<int> rotateArray) {
         if (rotateArray.size() == 0)	return 0;
-        int left = 0, right = rotateArray.size()-1;
-        int mid = 0;
-        //旋转数组的最左边的数肯定大于等于最右边的数 
-        while (rotateArray[left] >= rotateArray[right]){
-        	if (left+1 == right)	return rotateArray[right];
-        	mid = left + (right-left)/2;
-        	//不能确定最小值是在左边子数组还是右边子数组，只能顺序查找
-        	if (rotateArray[left] == rotateArray[mid] && rotateArray[left] == rotateArray[right]){
-        		int ans = INT_MAX;
-        		for (int i = left; i <= right; i++){
-        			if (rotateArray[i] < ans)	ans = rotateArray[i];
-        		}
-        		return ans;
-        	}
-        	//左边的值比中间值小，那么目标肯定是在left右边
-        	else if (rotateArray[left] <= rotateArray[mid]){
-        		left = mid;
-        	} //左边值比中间值大，那么目标肯定在left左边
-        	else{
-        		right = mid;
-        	}
+        int lo = 0, hi = rotateArray.size()-1;
+        while (rotateArray[lo] == rotateArray[hi]){
+            lo++;
+            hi--;
         }
-        return rotateArray[mid];
+        //lo 和 hi中间被分割了不在非递减数组内
+        while (rotateArray[lo] > rotateArray[hi]){
+            int mid = lo + (hi-lo)/2;
+            if (rotateArray[lo] >= rotateArray[mid]){
+                lo = mid+1;
+            }
+            else if (rotateArray[high] >= rotateArray[mid]){
+                hi = mid;
+            }
+        }
+        return rotateArray[lo];
     }
 };
+
+/*
+    原数组是非递减数组，那么旋转过后分为两块，都还是非递减数组。
+    有序数组查找采用二分查找，最后一定可以找到最低点lo。
+
+
+*/

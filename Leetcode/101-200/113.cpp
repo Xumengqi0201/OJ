@@ -4,37 +4,32 @@
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-	vector<int> path;
-	vector< vector<int> > allpath;
+    vector<int> path;
+    vector<vector<int>> ans;
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
-        if (root == NULL)	return allpath;
+        dfs(root, sum);
+        return ans;
+        
+    }
+private:
+    void dfs(TreeNode *root, int sum) {
+        if (root == NULL)   return;
         path.push_back(root->val);
-        if (root->left == NULL && root->right == NULL){
-        	int tmp =0;
-        	for(int i = 0; i < path.size(); i++){
-        		tmp += path[i];
-        	}
-        	if (tmp == sum)	allpath.push_back(path);
+        if (root->left == NULL && root->right == NULL && sum == root->val){
+            ans.push_back(path);
+            
         }
-
-        if (root->left != NULL){
-        	pathSum(root->left, sum);
-        }
-        if (root->right!= NULL){
-        	pathSum(root->right, sum);
+        else{
+            dfs(root->left, sum-root->val);
+            dfs(root->right, sum- root->val);
         }
         path.pop_back();
-        return allpath;
-    }
+  }
 };
-
-/*
-	求所有root->leaf节点之和等于sum的路径
-	思路：
-	1.dfs递归的求出符合条件的路径
-*/

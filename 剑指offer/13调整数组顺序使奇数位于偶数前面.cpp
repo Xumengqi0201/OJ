@@ -1,21 +1,33 @@
+/*
+    利用快速排序的思想，要想把偶数弄到数组右边，
+    设置两个指针i,j
+    i指向的数是偶数，j指向的数是奇数，且j永远在i右边
+    找到后停止，将j的位置的数放到i位置上，再将i和j中间的数组右移
+    这样可以保证偶数的顺序不变。
+*/
 class Solution {
 public:
     void reOrderArray(vector<int> &array) {
-    	//1个数不需要做任何操作
-        for (int i = 1; i < array.size(); i++){
-        	//因为==比&优先级高，所以千万不要写成if (array[i]&1 == 0)
-        	if (!(array[i] & 1))	continue;
-        	/*
-        		用位运算判断奇偶更快
-        		执行到内层循环说明array[i]是奇数，把这个奇数插到它前面的偶数前面
-        	*/
-        	for (int j = i; j > 0; j--){
-        		if (!(array[j-1] & 1)){
-        			int tmp = array[j-1];
-        			array[j-1] = array[j];
-        			array[j] = tmp;
-        		}
-        	}
+        if (array.size() <= 1)    return;
+        int len = array.size();
+        for (int i = 0; i < len ; i++){
+            //找到array[i]为偶数，array[j]为奇数
+            //位运算效率高
+            if ((array[i] & 1) != 0)    continue;
+            int j = i+1;
+            while (!(array[j] & 1)){
+                if (j == len-1)
+                    return;
+                j++;
+            }
+            int tmp = array[i];
+            array[i] = array[j];
+            int cnt = j-i;
+            while (cnt > 1){
+                array[i+cnt] = array[i+cnt-1];
+                cnt--;
+            }
+            array[i+1] = tmp;
         }
     }
 };

@@ -1,31 +1,19 @@
 class Solution {
 public:
     bool VerifySquenceOfBST(vector<int> sequence) {
-    	//题目认为sequence为空就不是遍历结果了，好吧，那应该强调一下树不是空的，否则我认为是不对的
-    	if (sequence.size() == 0)	return false;
-    	return isPostorder(sequence, 0, sequence.size()-1);
+        if (sequence.size() == 0)    return false;
+        return isBST(sequence, 0, sequence.size()-1);
     }
-    bool isPostorder(vector <int> & sequence, int left, int right){
-    	if (left > right)	return true;
-
-    	int root = sequence[right];
-    	int i = left;
-    	while (i < right){
-    		if (sequence[i] > root){
-    			break;
-    		}
-    		i++;
-    	}
-    	int tmp = i;
-    	while (i < right){
-    		if (sequence[i] < root){
-    			return false;
-    		}
-    		i++;
-    	}
-    	return isPostorder(sequence,left, tmp-1) && isPostorder(sequence,tmp,right-1);
-
-
+    bool isBST(vector <int> & sequence, int start, int end){
+        if (start > end)    return true;
+        int root = sequence[end];
+        int pivot= start; //寻找分界点，右子树开始的地方
+        for (; sequence[pivot] < root; pivot++);
+        //这种寻找分界点的方法保证了左子树中每一个元素都比根元素小
+        for (int i = pivot; i <= end; i++){//右子树中每一个元素都应该比根大
+            if (sequence[i] < root)    return false;
+        }
+        return isBST(sequence, start, pivot-1) && isBST(sequence, pivot,end-1);
     }
 };
 /*

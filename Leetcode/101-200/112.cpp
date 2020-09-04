@@ -16,7 +16,7 @@
 	3.解法三和2一样不过写到一个函数中了
 	
 */
-//solution 1
+//solution 1,垃圾
 class Solution {
 public:
 	vector <vector<int>> allpath;
@@ -58,35 +58,34 @@ public:
 //solution2
 class Solution {
 public:
-	bool flag = false;
-	vector <int> path;
     bool hasPathSum(TreeNode* root, int sum) {
-    	dfs(root, sum);
-    	return flag;
+        bool flag = false;
+        dfs(root, sum, 0, flag);
+        return flag;
+        
     }
-
-    void dfs(TreeNode *root, int sum){
-    	if (flag == true)	return;
-    	if (root == NULL)	return;
-    	path.push_back(root->val);
-    	if (root->left == NULL && root->right == NULL){
-    		int tmp = 0;
-    		for (int i = 0; i < path.size(); i++){
-    			tmp += path[i];
-    		}
-    		if (tmp == sum)		flag = true;
-    	}
-    	if (root->left != NULL){
-    		dfs(root->left, sum);
-    	}
-    	if (root->right!= NULL){
-    		dfs(root->right, sum);
-    	}
-    	path.pop_back();
+    void dfs(TreeNode* root, int sum, int cur, bool& flag){
+        if (flag == true)   return;
+        if (root == NULL)   return;
+        cur += root->val;
+        if (cur == sum){
+            if (root->left == NULL && root->right == NULL){
+                flag = true;
+                return;
+            }
+        }
+        if (root->left){
+            dfs(root->left, sum, cur, flag);
+        }
+        if (root->right){
+            dfs(root->right, sum, cur, flag);
+        }
+        
+        
     }
-   
 };
 
+//简洁且剪枝了
 
 class Solution {
 public:
